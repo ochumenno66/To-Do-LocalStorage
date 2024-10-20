@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* Скрыть стандартный чекбокс */
+      .custom-checkbox input {
+        display: none; /* Скрываем оригинальный чекбокс */
+      }
+
+      /* Стиль для кастомного чекбокса */
+      .custom-checkbox .checkmark {
+        width: 20px; /* Ширина чекбокса */
+        height: 20px; /* Высота чекбокса */
+        background-color: #eee; /* Цвет фона по умолчанию */
+        display: inline-block; /* Для правильного отображения */
+        border-radius: 4px; /* Скругленные углы */
+        position: relative; /* Для позиционирования галочки */
+        vertical-align: middle; /* Вертикальное выравнивание */
+        margin-right: 10px; /* Отступ справа */
+      }
+
+      /* Стиль для чекбокса при активации */
+      .custom-checkbox input:checked + .checkmark {
+        background-color: #4caf50; /* Цвет фона при активации */
+      }
+
+      /* Галочка */
+      .custom-checkbox .checkmark::after {
+        content: "";
+        display: none; /* Скрываем по умолчанию */
+        position: absolute; /* Позиционирование */
+        left: 7px; /* Позиция по X */
+        top: 3px; /* Позиция по Y */
+        width: 5px; /* Ширина галочки */
+        height: 10px; /* Высота галочки */
+        border: solid white; /* Цвет и стиль галочки */
+        border-width: 0 2px 2px 0; /* Формируем галочку */
+        transform: rotate(45deg); /* Поворачиваем */
+      }
+
+      /* Показать галочку при активации */
+      .custom-checkbox input:checked + .checkmark::after {
+        display: block; /* Показать галочку */
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <input type="text" id="taskInput" placeholder="Введите задачу" />
+      <button id="addTaskButton">Добавить задачу</button>
+      <button id="clearListButton" disabled>Очистить список</button>
+    </div>
+    <ul id="taskList"></ul>
+
+    <label class="custom-checkbox">
+      <input type="checkbox" id="myCheckbox" />
+      <span class="checkmark"></span>
+      Моя задача
+    </label>
+
+    <script>
+      const addTaskButton = document.getElementById("addTaskButton");
+      const clearListButton = document.getElementById("clearListButton");
+      const taskInput = document.getElementById("taskInput");
+      const taskList = document.getElementById("taskList");
+
+      // Функция для добавления задачи
+      addTaskButton.addEventListener("click", () => {
+        const taskText = taskInput.value.trim();
+        if (taskText) {
+          const li = document.createElement("li");
+          li.textContent = taskText;
+
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.disabled = true; // Деактивировать чекбокс
+
+          li.appendChild(checkbox);
+          taskList.appendChild(li);
+          taskInput.value = ""; // Очистить поле ввода
+
+          // Активировать кнопку "Очистить список"
+          clearListButton.disabled = false;
+        }
+      });
+
+      // Функция для очистки списка задач
+      clearListButton.addEventListener("click", () => {
+        taskList.innerHTML = ""; // Очистить список
+        clearListButton.disabled = true; // Деактивировать кнопку
+      });
+    </script>
+  </body>
+</html>

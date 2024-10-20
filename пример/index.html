@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form>
+      <div>
+        <label for="author"
+          >Имя *
+          <span id="authorError"></span>
+        </label>
+      </div>
+      <div>
+        <input type="text" name="author" id="author" value="" class="inputs" />
+      </div>
+      <div>
+        <label for="comment"
+          >Комментарий:
+          <span id="commentError"></span>
+        </label>
+      </div>
+      <div>
+        <textarea name="comment" id="comment" class="inputs"></textarea>
+      </div>
+      <div id="chat"></div>
+      <div>
+        <input
+          name="button"
+          type="button"
+          id="button"
+          value="Отправить"
+          onclick="checkMessage()"
+        />
+      </div>
+    </form>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function (event) {
+        let name = localStorage.getItem("name");
+        if (name != null) {
+          document.getElementById("author").value = name;
+        }
+      });
+
+      function sendMessage(author, comment) {
+        document.getElementById(
+          "chat"
+        ).innerHTML += `<span class='author'>${author}:</span><span>${comment}</span><br>`;
+      }
+
+      function checkMessage() {
+        let author = document.getElementById("author").value;
+        let comment = document.getElementById("comment").value;
+
+        if (localStorage.getItem("name") == null) {
+          localStorage.setItem("name", author);
+        }
+
+        sendMessage(author, comment);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="title">To-Do list</h1>
+      <div class="row">
+        <input type="text" id="input" placeholder="введите задачу" />
+        <button id="button">Добавить</button>
+      </div>
+      <ul id="taskList"></ul>
+      <div class="clearBtn">
+        <button id="clearButton">Очистить список задач</button>
+      </div>
+    </div>
+
+    <script>
+      // Получаем необходимые элементы DOM
+      const taskInput = document.getElementById("input");
+      const addButton = document.getElementById("button");
+      const taskList = document.getElementById("taskList");
+      const clearButton = document.getElementById("clearButton");
+
+      loadTasks()
+
+      function addTask() {
+        const task = taskInput.value.trim();
+
+        if (task) {
+          createTaskElement(task);
+          taskInput.value = "";
+          saveTasks()
+        } else {
+          alert("ghfhfhfhf");
+        }
+      }
+
+      addButton.addEventListener("click", addTask);
+
+      function createTaskElement(task) {
+        const listItem = document.createElement("li");
+        listItem.textContent = task;
+        taskList.appendChild(listItem);
+      }
+
+      function saveTasks() {
+        const tasks = [];
+        taskList.querySelectorAll("li").forEach(function (item) {
+          tasks.push(item.textContent.trim());
+        });
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+      }
+
+      function loadTasks() {
+        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        tasks.forEach(createTaskElement);
+      }
+    </script>
+  </body>
+</html>
